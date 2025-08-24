@@ -1,28 +1,37 @@
-export default function PlanCard({
-  plan,
+export default function SubscriptionCard({
+  plan, // { id, name, ribbon?, sections[], term, total, featured }
   accents,
   terms,
   onChangeTerm,
-  showTermSelect,
   ctaLabel,
-  sections, // [{ title, items: [string | {text, muted}] }]
-  showRibbon, // boolean
-  priceSuffix, // string e.g. " / Notice"
+  featured = false,
 }) {
-  const { id, name, total, term, ribbon } = plan;
+  const { id, name, ribbon, sections, term, total } = plan;
 
-  const card = {
+  const base = {
     position: "relative",
     background: "#fff",
     minHeight: 520,
     borderRadius: 18,
-    border: `2px solid ${id === "business" ? accents.border : "#d3e2ff"}`,
+    border: `2px solid ${featured ? accents.border : "#d3e2ff"}`,
     boxShadow: "0 6px 18px rgba(0,0,0,0.06)",
     padding: 18,
     display: "flex",
     flexDirection: "column",
     overflow: "hidden",
+    transition: "transform .2s ease, box-shadow .2s ease",
+    transformOrigin: "center",
   };
+  const bump = featured
+    ? {
+        transform: "scale(1.05)",
+        minHeight: 560,
+        boxShadow: "0 14px 30px rgba(0,0,0,.12)",
+        zIndex: 1,
+      }
+    : {};
+
+  const card = { ...base, ...bump };
 
   const ribbonStyle = {
     position: "absolute",
@@ -95,17 +104,13 @@ export default function PlanCard({
 
   return (
     <div style={card}>
-      {showRibbon && ribbon && <div style={ribbonStyle}>{ribbon}</div>}
+      {ribbon && <div style={ribbonStyle}>{ribbon}</div>}
 
-      {/* Price row */}
       <div style={priceRow}>
         <div style={price}>
-          {total === 0
-            ? "Free"
-            : `Rs.${total.toLocaleString("en-NP")}${priceSuffix || ""}`}
+          {total === 0 ? "Free" : `Rs.${total.toLocaleString("en-NP")}`}
         </div>
-
-        {showTermSelect && (
+        {id !== "free" && (
           <select
             value={term}
             onChange={(e) => onChangeTerm(e.target.value)}
@@ -124,10 +129,9 @@ export default function PlanCard({
       <div style={planTitle}>{name}</div>
       <hr style={hr} />
 
-      {/* Render sections */}
-      {sections?.map((sec, idx) => (
+      {sections.map((sec, idx) => (
         <div key={idx}>
-          {sec.title ? <div style={sectionTitle}>{sec.title}</div> : null}
+          <div style={sectionTitle}>{sec.title}</div>
           <div style={bullets}>
             {sec.items.map((it, i) =>
               typeof it === "string" ? (
