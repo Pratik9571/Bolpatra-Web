@@ -1,0 +1,137 @@
+.page {
+  background: #fff;
+}
+
+/* use 100% instead of 100vw to avoid horizontal scrollbars */
+.wrap {
+  background: #f5f6f8;
+  min-height: calc(100vh - 60px);
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0 56px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1300px;
+  padding: 0 16px;
+  margin: 0 auto;
+}
+
+.heading {
+  text-align: center;
+  margin-bottom: 16px;
+  color: #0b2b5e;
+}
+
+.title {
+  font-size: 36px;
+  font-weight: 900;
+  margin: 0 0 6px;
+}
+
+.subtitle {
+  color: #6b7280;
+  margin: 0;
+  font-size: 14px;
+}
+
+.modeBar {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 16px 0 24px;
+  flex-wrap: wrap;
+}
+
+/* Buttons use CSS variables for accents so we can reuse the same class */
+.modeBtn {
+  border: 1.5px solid #bcd0ff;
+  background: #fff;
+  color: #0b2b5e;
+  border-radius: 9999px;
+  padding: 10px 16px;
+  font-weight: 800;
+  cursor: pointer;
+  line-height: 1;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.05s ease;
+}
+.modeBtn:active {
+  transform: translateY(1px);
+}
+
+.active {
+  border: 2px solid var(--accent);
+  background: var(--active-bg);
+}
+
+/* Variants set the accent + active background */
+.bidder {
+  --accent: #2a66ff;
+  --active-bg: #eef4ff;
+}
+.publisher {
+  --accent: #10b981;
+  --active-bg: #eefdf7;
+}
+
+/* -------------------- MOBILE TIDY -------------------- */
+/* Goal: cards are the height of their content, even spacing, nothing pops out.
+   Works without changing your JSX (targets typical card/list class names). */
+@media (max-width: 640px) {
+  .container {
+    padding: 0 12px;
+  }
+  .title {
+    font-size: 28px;
+  }
+  .subtitle {
+    font-size: 13px;
+  }
+  .modeBar {
+    gap: 10px;
+    margin: 12px 0 18px;
+  }
+
+  /* One column with clean gaps for any card list/grid */
+  :global([class*="grid"]),
+  :global([class*="Grid"]),
+  :global([class*="list"]),
+  :global([class*="cards"]),
+  :global([class*="Cards"]) {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  /* Card boxes: natural (auto) height, consistent width, nothing overflowing */
+  :global([class*="card"]),
+  :global([class*="Card"]),
+  :global([class*="plan"]),
+  :global([class*="Plan"]) {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important; /* ribbons/badges stay inside */
+    border-radius: 16px; /* keeps visual tidy if inner elem touch edges */
+  }
+
+  /* Prevent inner areas from creating their own scrollbars */
+  :global([class*="card"] *),
+  :global([class*="Card"] *),
+  :global([class*="plan"] *),
+  :global([class*="Plan"] *) {
+    min-width: 0;
+  }
+
+  /* Space before bottom CTA so content never looks cramped */
+  :global([class*="card"] button),
+  :global([class*="Card"] button),
+  :global([class*="plan"] button),
+  :global([class*="Plan"] button) {
+    margin-top: 12px;
+  }
+}

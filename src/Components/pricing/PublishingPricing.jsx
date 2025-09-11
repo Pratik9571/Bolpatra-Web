@@ -45,10 +45,10 @@ const PUBLISHING_PLANS = [
 
 export default function PublishingPricing() {
   const accents = {
-    border: "#10b981",
-    title: "#059669",
-    price: "#065f46",
-    cta: "#10b981",
+    border: "#ed9696",
+    title: "#ff0026d1",
+    price: "#0b2b5e",
+    cta: "#ff0026d1",
   };
 
   const grid = {
@@ -67,7 +67,7 @@ export default function PublishingPricing() {
           featured={p.featured}
           accents={accents}
           priceSuffix=" / Notice"
-          ctaLabel={p.id === "free" ? "Get Started" : "Choose Publisher"}
+          ctaLabel={"Learn More"}
         />
       ))}
     </div>

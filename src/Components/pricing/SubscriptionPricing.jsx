@@ -10,7 +10,7 @@ const TERMS = [
 // Prices per plan & term (subscription ONLY)
 const PRICE_BY_PLAN = {
   free: { "1y": 0, "2y": 0, "5y": 0 },
-  business: { "1y": 1700, "2y": 3000, "5y": 5000 },
+  business: { "1y": 1800, "2y": 3000, "5y": 5000 },
   basic: { "1y": 1200, "2y": 2000, "5y": 4000 },
 };
 
@@ -129,7 +129,7 @@ export default function SubscriptionPricing() {
           onChangeTerm={(newTerm) =>
             setTermByPlan((prev) => ({ ...prev, [p.id]: newTerm }))
           }
-          ctaLabel={p.id === "free" ? "Get Started" : "Subscribe"}
+          ctaLabel={p.id === "free" ? null : "Subscribe"}
         />
       ))}
     </div>

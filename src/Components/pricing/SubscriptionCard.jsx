@@ -146,7 +146,7 @@ export default function SubscriptionCard({
         </div>
       ))}
 
-      <button style={cta}>{ctaLabel}</button>
+      {ctaLabel && <button style={cta}>{ctaLabel}</button>}
     </div>
   );
 }
