@@ -6,7 +6,7 @@
 .wrap {
   background: #f5f6f8;
   min-height: calc(100vh - 60px);
-  width: 100vw;
+  width: 100vw; /* FIXED */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -46,7 +46,7 @@
   flex-wrap: wrap;
 }
 
-/* Buttons use CSS variables for accents so we can reuse the same class */
+/* Buttons */
 .modeBtn {
   border: 1.5px solid #bcd0ff;
   background: #fff;
@@ -67,19 +67,16 @@
   background: var(--active-bg);
 }
 
-/* Variants set the accent + active background */
 .bidder {
   --accent: #2a66ff;
   --active-bg: #eef4ff;
 }
 .publisher {
-  --accent: #10b981;
-  --active-bg: #eefdf7;
+  --accent: #b91010;
+  --active-bg: #fdeeee;
 }
 
 /* -------------------- MOBILE TIDY -------------------- */
-/* Goal: cards are the height of their content, even spacing, nothing pops out.
-   Works without changing your JSX (targets typical card/list class names). */
 @media (max-width: 640px) {
   .container {
     padding: 0 12px;
@@ -95,7 +92,7 @@
     margin: 12px 0 18px;
   }
 
-  /* One column with clean gaps for any card list/grid */
+  /* One column grid for cards/lists */
   :global([class*="grid"]),
   :global([class*="Grid"]),
   :global([class*="list"]),
@@ -103,10 +100,9 @@
   :global([class*="Cards"]) {
     display: grid !important;
     grid-template-columns: 1fr !important;
-    gap: 16px !important;
   }
 
-  /* Card boxes: natural (auto) height, consistent width, nothing overflowing */
+  /* Card boxes */
   :global([class*="card"]),
   :global([class*="Card"]),
   :global([class*="plan"]),
@@ -115,11 +111,18 @@
     flex-direction: column !important;
     width: 100% !important;
     box-sizing: border-box !important;
-    overflow: hidden !important; /* ribbons/badges stay inside */
-    border-radius: 16px; /* keeps visual tidy if inner elem touch edges */
+    overflow: hidden !important;
+    border-radius: 16px;
   }
 
-  /* Prevent inner areas from creating their own scrollbars */
+  /* Disable featured bump on mobile */
+  .featured {
+    transform: none !important;
+    min-height: auto !important;
+    z-index: auto;
+  }
+
+  /* Prevent inner scrollbars */
   :global([class*="card"] *),
   :global([class*="Card"] *),
   :global([class*="plan"] *),
@@ -127,11 +130,267 @@
     min-width: 0;
   }
 
-  /* Space before bottom CTA so content never looks cramped */
+  /* Button spacing */
   :global([class*="card"] button),
   :global([class*="Card"] button),
   :global([class*="plan"] button),
   :global([class*="Plan"] button) {
-    margin-top: 12px;
+    margin-top: auto;
+  }
+}
+
+/* ===== PUBLISHING PRICING THEME ===== */
+.publishingTheme {
+  --accent-border: #ed9696;
+  --accent-title: #ff0026d1;
+  --accent-price: #0b2b5e;
+  --accent-cta: #ff0026d1;
+}
+
+.planGrid,
+.publishingGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  align-items: stretch;
+  gap: 16px;
+}
+
+/* Card base */
+.card,
+.cardBase {
+  position: relative;
+  background: #fff;
+  border-radius: 18px;
+  border: 2px solid #9796ed61;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transform-origin: center;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+/* Featured bump (desktop only) */
+.featured {
+  transform: scale(1.05);
+  min-height: 560px;
+  border-color: var(--accent-border);
+  z-index: 1;
+}
+
+/* Card content */
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.price {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--accent-price);
+}
+
+.planTitle {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--accent-title);
+  margin: 2px 0 8px;
+}
+
+.card hr,
+.hrLine {
+  border: 0;
+  border-top: 2px solid #e4eefc;
+  margin: 10px 0 14px;
+}
+
+.bullets {
+  margin-left: 4px;
+  display: grid;
+  gap: 6px;
+  color: #525f7a;
+  font-size: 14px;
+}
+
+/* CTA button */
+.cta,
+.ctaBtn {
+  margin-top: auto;
+  border: 2px solid var(--accent-cta);
+  background: transparent;
+  color: var(--accent-cta);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-weight: 800;
+  cursor: pointer;
+  line-height: 1;
+  transition: transform 0.05s ease;
+}
+.cta:active,
+.ctaBtn:active {
+  transform: translateY(1px);
+}
+
+/* ===== SUBSCRIPTION THEME (blue) ===== */
+.subscriptionTheme {
+  --accent-border: #2a66ff;
+  --accent-title: #2a66ff;
+  --accent-price: #0b2b5e;
+  --accent-cta: #2a66ff;
+}
+
+/* Default subscription border in light blue */
+.subscriptionTheme .card {
+  border-color: rgba(42, 102, 255, 0.35);
+}
+
+/* Ribbon */
+.ribbon {
+  position: absolute;
+  top: 18px;
+  right: -42px;
+  background: #ff2d55;
+  color: #fff;
+  font-weight: 700;
+  padding: 6px 56px;
+  transform: rotate(45deg);
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Section title inside the card */
+.sectionTitle {
+  color: #0b2b5e;
+  font-weight: 800;
+  margin: 14px 0 8px;
+}
+
+/* Term select */
+.termSelect {
+  border: 1.5px solid #bcc3ff;
+  background: #eef2ff;
+  color: #0b2b5e;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+@media (max-width: 480px) {
+  .termSelect {
+    font-size: 13px;
+  }
+}
+
+/* ================== PUBLISHING (ONLY) ================== */
+
+.publishingGrid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  align-items: stretch;
+}
+
+/* Shared base for publisher cards */
+.cardBase {
+  position: relative;
+  background: #fff;
+  border-radius: 18px;
+  border: 2px solid #ed969661; /* light by default */
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transform-origin: center;
+  box-sizing: border-box;
+}
+
+/* Publisher theme colors */
+.publishingCard .price {
+  color: #000000;
+}
+.publishingCard .planTitle {
+  color: #ff0026d1;
+}
+.ctaBtn {
+  margin-top: auto;
+  border: 2px solid #ff0026d1;
+  background: transparent;
+  color: #ff0026d1;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-weight: 800;
+  cursor: pointer;
+  line-height: 1;
+  transition: transform 0.05s ease;
+}
+.ctaBtn:active {
+  transform: translateY(1px);
+}
+
+/* Featured/best plan bump (desktop/tablet) */
+.featured {
+  transform: scale(1.05);
+  border-color: #ed9696;
+  z-index: 1;
+}
+
+/* Inner bits */
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.price {
+  font-size: 26px;
+  font-weight: 800;
+}
+.planTitle {
+  font-size: 22px;
+  font-weight: 800;
+  margin: 2px 0 8px;
+}
+.hrLine {
+  border: 0;
+  border-top: 2px solid #fce4e8;
+  margin: 10px 0 14px;
+}
+.bullets {
+  margin-left: 4px;
+  display: grid;
+  gap: 6px;
+  color: #525f7a;
+  font-size: 14px;
+}
+
+/* ---------- Mobile rules: tidy, equal-looking boxes ---------- */
+@media (max-width) {
+  .publishingGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* same footprint, nothing pops out */
+  .cardBase {
+    min-height: 560px; /*equal-looking height*/
+    border-radius: 16px;
+    width: 100%;
+  }
+  .featured {
+    transform: none; /* no scaling on mobile */
+    z-index: auto;
   }
 }

@@ -1,4 +1,5 @@
 import PublishingCard from "./PublishingCard";
+import styles from "../../styles/Pricing.module.css";
 
 // Each publishing card (edit any single card freely)
 const PUBLISHING_PLANS = [
@@ -18,7 +19,6 @@ const PUBLISHING_PLANS = [
     id: "business",
     featured: true, // middle/best card bigger
     title: "E-Bidding",
-    ribbon: "BEST PLAN",
     price: 3000,
     bullets: [
       "✓ Publishing on Bolpatra",
@@ -44,30 +44,15 @@ const PUBLISHING_PLANS = [
 ];
 
 export default function PublishingPricing() {
-  const accents = {
-    border: "#ed9696",
-    title: "#ff0026d1",
-    price: "#0b2b5e",
-    cta: "#ff0026d1",
-  };
-
-  const grid = {
-    display: "grid",
-    gap: 16,
-    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-    alignItems: "stretch",
-  };
-
   return (
-    <div style={grid}>
+    <div className={styles.publishingGrid}>
       {PUBLISHING_PLANS.map((p) => (
         <PublishingCard
           key={p.id}
           card={p}
           featured={p.featured}
-          accents={accents}
           priceSuffix=" / Notice"
-          ctaLabel={"Learn More"}
+          ctaLabel="Learn More"
         />
       ))}
     </div>

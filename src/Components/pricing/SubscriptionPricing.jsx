@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import SubscriptionCard from "./SubscriptionCard";
+import styles from "../../styles/Pricing.module.css";
 
 const TERMS = [
   { id: "1y", label: "1 yr" },
@@ -7,18 +8,16 @@ const TERMS = [
   { id: "5y", label: "5 Yr" },
 ];
 
-// Prices per plan & term (subscription ONLY)
 const PRICE_BY_PLAN = {
   free: { "1y": 0, "2y": 0, "5y": 0 },
   business: { "1y": 1800, "2y": 3000, "5y": 5000 },
   basic: { "1y": 1200, "2y": 2000, "5y": 4000 },
 };
 
-// Each subscription card (edit any single card freely)
 const SUBSCRIPTION_PLANS = [
   {
     id: "free",
-    featured: false, // set true to make this one bigger instead
+    featured: false,
     name: "Free Plan",
     sections: [
       { title: "Notice", items: ["✓ Exclusive E-Bid & E-Notice", "✓ PPMO"] },
@@ -28,7 +27,7 @@ const SUBSCRIPTION_PLANS = [
   },
   {
     id: "business",
-    featured: true, // middle/best card bigger
+    featured: true,
     name: "Business Plan",
     ribbon: "BEST PLAN",
     sections: [
@@ -103,27 +102,12 @@ export default function SubscriptionPricing() {
     [termByPlan]
   );
 
-  const accents = {
-    border: "rgb(42, 102, 255)",
-    title: "#2a66ff",
-    price: "#0b2b5e",
-    cta: "#2a66ff",
-  };
-
-  const grid = {
-    display: "grid",
-    gap: 16,
-    gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-    alignItems: "stretch",
-  };
-
   return (
-    <div style={grid}>
+    <div className={[styles.subscriptionTheme, styles.planGrid].join(" ")}>
       {cards.map((p) => (
         <SubscriptionCard
           key={p.id}
           plan={p}
-          accents={accents}
           terms={TERMS}
           featured={p.featured}
           onChangeTerm={(newTerm) =>

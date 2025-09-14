@@ -6,20 +6,31 @@ import styles from "../styles/Pricing.module.css";
 export default function Pricing() {
   const [mode, setMode] = useState("subscription"); // 'subscription' | 'publishing'
 
+  const {
+    page,
+    wrap,
+    container,
+    heading,
+    title,
+    subtitle,
+    modeBar,
+    modeBtn,
+    bidder,
+    active,
+    publisher,
+  } = styles;
   return (
-    <div className={styles.page}>
-      <section className={styles.wrap}>
-        <div className={styles.container}>
-          <div className={styles.heading}>
-            <h2 className={styles.title}>Pricing</h2>
-            <p className={styles.subtitle}>
-              Choose the plan that best suits you.
-            </p>
+    <div className={page}>
+      <section className={wrap}>
+        <div className={container}>
+          <div className={heading}>
+            <h2 className={title}>Pricing</h2>
+            <p className={subtitle}>Choose the plan that best suits you.</p>
 
-            <div className={styles.modeBar}>
+            <div className={modeBar}>
               <button
-                className={`${styles.modeBtn} ${styles.bidder} ${
-                  mode === "subscription" ? styles.active : ""
+                className={`${modeBtn} ${bidder} ${
+                  mode === "subscription" ? active : ""
                 }`}
                 onClick={() => setMode("subscription")}
               >
@@ -27,8 +38,8 @@ export default function Pricing() {
               </button>
 
               <button
-                className={`${styles.modeBtn} ${styles.publisher} ${
-                  mode === "publishing" ? styles.active : ""
+                className={`${modeBtn} ${publisher} ${
+                  mode === "publishing" ? active : ""
                 }`}
                 onClick={() => setMode("publishing")}
               >
